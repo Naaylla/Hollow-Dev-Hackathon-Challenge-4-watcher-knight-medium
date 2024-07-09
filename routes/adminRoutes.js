@@ -76,35 +76,31 @@ router.get('/delete', async (req, res) => {
 // Add candidate route
 router.post('/add', async (req, res) => {
     try {
-        if (!(await checkAdminRole(req.user.id))) {
-            return res.status(403).json({ message: 'User does not have admin role' });
-        }
 
-        const { candidateID, name } = req.body;
-        const existingUser = await User.findById(candidateID);
+        const existingUser = await User.findById(req.body.candidateID);
 
         if (!existingUser) {
-            return res.render("add.ejs", { user: req.user, message: 'User with the provided ID does not exist' });
+            return res.render("add.ejs", { message: 'User with the provided ID does not exist' });
         }
 
-        const existingCandidate = await Candidate.findOne({ user: candidateID });
+        const existingCandidate = await Candidate.findById(req.body.candidateID);
 
         if (existingCandidate) {
-            return res.render("add.ejs", { user: req.user, message: 'Candidate already exists' });
+            return res.render("add.ejs", { message: 'Candidate already exists' });
         }
 
         if (existingUser.role === 'admin') {
-            return res.render("add.ejs", { user: req.user, message: 'An admin cannot be a candidate' });
+            return res.render("add.ejs", { message: 'An admin cannot be a candidate' });
         }
 
-        const newCandidate = new Candidate({ name: existingUser.name, user: candidateID });
+        const newCandidate = new Candidate({ name: existingUser.name });
         await newCandidate.save();
         console.log('New candidate created');
-        res.render("add.ejs", { user: req.user, message: 'Candidate added successfully' });
+        res.render("add.ejs", { message: 'Candidate added successfully' });
 
     } catch (err) {
-        console.error('Error adding candidate:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.render("add.ejs", { message: "Please enter an existant user" });
+
     }
 });
 
