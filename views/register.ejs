@@ -1,12 +1,10 @@
-<!-- THIS IS A Bootstrap TEMPLATE THAT I MODIFIED, I DO NOT OWN THIS TEMPLATE -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CSS -->
@@ -44,39 +42,39 @@
 
 <body>
     <div class="container custom-container">
-
         <!-- Pills content -->
         <div class="tab-content">
             <div class="login-page tab-pane fade show active" id="pills-login" role="tabpanel"
                 aria-labelledby="tab-login">
                 <form action="/register" method="POST">
                     <h1 class="text-center">SIGN UP</h1>
-                    <div class=" text-center mb-3">
-
-                    </div>
-                    <!-- Username input -->
-                    <div class="form-outline mb-4">
-                        <label class="form-label" for="registerUsername">Username</label>
-                        <input type="text" name="name" id="registerUsername" class="form-control" />
-                    </div>
-                    <!-- Email input -->
-                    <div class="form-outline mb-4">
-                        <label class="form-label" for="registerEmail">Email</label>
-                        <input type="email" name="email" id="registerEmail" class="form-control" />
-                    </div>
-                    <!-- Password input -->
-                    <div class="form-outline mb-4">
-                        <label class="form-label" for="registerPassword">Password</label>
-                        <input type="password" name="password" id="registerPassword" class="form-control" />
-                    </div>
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block mb-3">Register</button>
-                    <div class="text-center">
-                        <p>Already have an account ? <a href="/">Login</a></p>
-                    </div>
+                    <% if (errorMessage.length> 0) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= errorMessage %>
+                        </div>
+                        <% } %>
+                            <!-- Username input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="registerUsername">Username</label>
+                                <input type="text" name="name" id="registerUsername" class="form-control" />
+                            </div>
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="registerEmail">Email</label>
+                                <input type="email" name="email" id="registerEmail" class="form-control" />
+                            </div>
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="registerPassword">Password</label>
+                                <input type="password" name="password" id="registerPassword" class="form-control" />
+                            </div>
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-3">Register</button>
+                            <div class="text-center">
+                                <p>Already have an account? <a href="/">Login</a></p>
+                            </div>
                 </form>
             </div>
-
         </div>
         <!-- Pills content -->
     </div>
