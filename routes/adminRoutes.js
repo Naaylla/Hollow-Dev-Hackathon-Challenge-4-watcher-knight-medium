@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Candidate = require('../models/Candidate');
 const User = require('../models/User');
+const voteRoutes = require('./votesRoutes');
 
 // Middleware to check admin role
 const checkAdminRole = async (userID) => {
@@ -149,5 +150,8 @@ router.post('/delete', async (req, res) => {
 
     }
 });
+
+router.use('/votes', voteRoutes);
+
 
 module.exports = router;
