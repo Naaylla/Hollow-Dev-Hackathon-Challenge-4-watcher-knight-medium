@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const passport = require("passport");
@@ -23,10 +22,11 @@ router.post("/", checkUnauthenticated, function (req, res, next) {
                 console.error(err);
                 return res.redirect('/');
             }
+
             if (user.role === 'admin') {
-                return res.redirect('/admin');
+                return res.redirect('/admin')
             } else {
-                return res.redirect('/home');
+                return res.redirect('/user')
             }
         });
     })(req, res, next);
