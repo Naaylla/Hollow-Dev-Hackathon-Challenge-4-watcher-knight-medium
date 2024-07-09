@@ -16,42 +16,44 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get details of a specific candidate
-router.get('/:candidateID', async (req, res) => {
-    const candidateID = req.params.candidateID;
+// Vote for a candidate
+// Vote for a candidate
+router.post('/', async (req, res) => {
+    const candidateID = req.body.candidateID; // Get candidate ID from form submission
+    const userID = req.user._id; // Assuming req.user contains the logged-in user's ID
 
     try {
         const candidate = await Candidate.findById(candidateID);
-        if (!candidate) {
-            return res.status(404).json({ message: 'Candidate not found' });
+        const user = await User.findById(userID);
+
+        if (!candidate || !user) {
+            return res.status(404).json({ message: 'Candidate or user not found' });
         }
 
-        res.status(200).json(candidate);
+        if (user.isVotedFor(candidateID)) {
+            // User has already voted for this candidate, so unvote
+            candidate.voteCount--;
+            await candidate.save();
+
+            user.unvote(candidateID);
+            await user.save();
+
+            return res.redirect('/votes');
+        } else {
+            // User is voting for the first time
+            candidate.voteCount++;
+            await candidate.save();
+
+            user.vote(candidateID);
+            await user.save();
+
+            return res.redirect('/votes');
+        }
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-// Vote for a candidate
-router.post('/', async (req, res) => {
-    const candidateID = req.body.candidateID;
-    const candidate = await Candidate.findById(candidateID);
-
-    if (candidate.isVoted) {
-        return res.status(400).json({ message: 'You have already voted' });
-    }
-
-    // Record the vote
-    candidate.votes.push({ user: userId });
-    candidate.voteCount++;
-    await candidate.save();
-
-    // Mark user as voted
-    user.isVoted = true;
-    await user.save();
-
-    return res.redirect('/votes'); // Redirect to the votes page after voting
-});
 
 module.exports = router;
