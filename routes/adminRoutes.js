@@ -80,7 +80,7 @@ router.post('/add', async (req, res) => {
             return res.status(403).json({ message: 'User does not have admin role' });
         }
 
-        const { candidateID, party } = req.body;
+        const { candidateID, name } = req.body;
         const existingUser = await User.findById(candidateID);
 
         if (!existingUser) {
@@ -88,6 +88,7 @@ router.post('/add', async (req, res) => {
         }
 
         const existingCandidate = await Candidate.findOne({ user: candidateID });
+
         if (existingCandidate) {
             return res.render("add.ejs", { user: req.user, message: 'Candidate already exists' });
         }
@@ -96,8 +97,8 @@ router.post('/add', async (req, res) => {
             return res.render("add.ejs", { user: req.user, message: 'An admin cannot be a candidate' });
         }
 
-        const newCandidate = new Candidate({ user: candidateID, party });
-        const response = await newCandidate.save();
+        const newCandidate = new Candidate({ name: existingUser.name, user: candidateID });
+        await newCandidate.save();
         console.log('New candidate created');
         res.render("add.ejs", { user: req.user, message: 'Candidate added successfully' });
 
