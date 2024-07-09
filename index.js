@@ -1,23 +1,23 @@
 if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config()
+    require("dotenv").config();
 }
 
 const express = require('express');
 const app = express();
 const passport = require("passport");
-const initializePassport = require("./config/passport-config");
 const flash = require("express-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const connectToDB = require("./config/database");
+const User = require("./models/User");
+const { checkAdmin } = require("./middlewares/roleMiddleware");
 
-
-const users = [];
+const initializePassport = require("./config/passport-config");
 
 initializePassport(
     passport,
-    email => users.find(user => user.email === email),
-    id => users.find(user => user.id === id)
+    async email => await User.findOne({ email: email }),
+    async id => await User.findById(id)
 );
 
 app.use(express.urlencoded({ extended: false }));
@@ -33,8 +33,10 @@ app.use(passport.session());
 app.use(methodOverride("_method"));
 
 const authRoutes = require('./routes/authRoutes');
-app.use('/', authRoutes);
+const adminRoutes = require('./routes/adminRoutes');
 
+app.use('/', authRoutes);
+app.use('/admin', checkAdmin, adminRoutes);
 
 const PORT = 5000;
 

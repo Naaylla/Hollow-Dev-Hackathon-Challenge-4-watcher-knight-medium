@@ -7,9 +7,21 @@ function checkAuthenticated(request, response, next) {
 
 function checkUnauthenticated(request, response, next) {
     if (request.isAuthenticated()) {
-        return response.redirect("/home");
+        if (request.user && request.user.role === 'admin') {
+            return response.redirect("/admin");
+        } else {
+            return response.redirect("/home");
+        }
     }
     next();
 }
 
-module.exports = { checkAuthenticated, checkUnauthenticated };
+function checkAdminAuthenticated(req, res, next) {
+    if (req.isAuthenticated() && req.user.role === 'admin') {
+        return next();
+    }
+    res.redirect('/admin');
+}
+
+
+module.exports = { checkAuthenticated, checkUnauthenticated, checkAdminAuthenticated };
