@@ -26,6 +26,8 @@ router.post("/", checkUnauthenticated, async function (req, res) {
         });
         await newUser.save();
         req.flash("successMessage", "Registered successfully!");
+        res.redirect("/");
+
 
     } catch (e) {
         console.error(e);
