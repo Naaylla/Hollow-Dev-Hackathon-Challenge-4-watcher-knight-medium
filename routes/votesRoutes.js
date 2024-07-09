@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Candidate = require('../models/Candidate');
-const User = require('../models/User');
 
-// Get all candidates
 router.get('/', async (req, res) => {
     try {
         let candidates = await Candidate.find({}, 'name party voteCount');
@@ -16,43 +14,32 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Vote for a candidate
-// Vote for a candidate
-router.post('/', async (req, res) => {
-    const candidateID = req.body.candidateID; // Get candidate ID from form submission
-    const userID = req.user._id; // Assuming req.user contains the logged-in user's ID
+router.get('/:id', async (req, res) => {
+    const candidateID = req.params.id;
 
     try {
-        const candidate = await Candidate.findById(candidateID);
-        const user = await User.findById(userID);
+        let candidate = await Candidate.findById(candidateID);
 
-        if (!candidate || !user) {
-            return res.status(404).json({ message: 'Candidate or user not found' });
+        if (!candidate) {
+            return res.status(404).json({ error: 'Candidate not found' });
         }
 
-        if (user.isVotedFor(candidateID)) {
-            // User has already voted for this candidate, so unvote
-            candidate.voteCount--;
-            await candidate.save();
-
-            user.unvote(candidateID);
-            await user.save();
-
-            return res.redirect('/votes');
-        } else {
-            // User is voting for the first time
-            candidate.voteCount++;
-            await candidate.save();
-
-            user.vote(candidateID);
-            await user.save();
-
-            return res.redirect('/votes');
-        }
+        res.json(candidate);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+});
+router.post('/', async (req, res) => {
+    const candidateID = req.body.candidateID;
+
+    const candidate = await Candidate.findById(candidateID);
+
+    candidate.voteCount++;
+    await candidate.save();
+
+    res.status(200).json({ message: 'Vote counted successfully', candidate });
+
 });
 
 
