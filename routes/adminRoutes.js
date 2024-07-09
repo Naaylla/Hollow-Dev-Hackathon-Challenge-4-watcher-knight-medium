@@ -122,8 +122,8 @@ router.post('/update', async (req, res) => {
         res.render("update.ejs", { candidates: await Candidate.find(), user: req.user, message: 'Candidate updated successfully' });
 
     } catch (err) {
-        console.error('Error updating candidate:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.render("add.ejs", { message: "Error updating candidate" });
+
     }
 });
 
@@ -145,8 +145,8 @@ router.post('/delete', async (req, res) => {
         res.render("delete.ejs", { candidates: await Candidate.find(), user: req.user, message: 'Candidate deleted successfully' });
 
     } catch (err) {
-        console.error('Error deleting candidate:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.render("add.ejs", { message: "Error deleting candidate" });
+
     }
 });
 
