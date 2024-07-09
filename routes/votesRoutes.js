@@ -33,8 +33,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const candidateID = req.body.candidateID;
-    const userID = req.user._id; // Assuming you have user ID in req.user
-
+    const userID = req.user._id;
     try {
         // Check if the user has already voted for this candidate
         const candidate = await Candidate.findById(candidateID);

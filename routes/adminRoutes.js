@@ -15,7 +15,6 @@ const checkAdminRole = async (userID) => {
     }
 };
 
-// Admin panel route
 router.get('/', async (req, res) => {
     try {
         if (!(await checkAdminRole(req.user.id))) {
@@ -30,7 +29,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Add candidate page
 router.get('/add', async (req, res) => {
     try {
         if (!(await checkAdminRole(req.user.id))) {
@@ -44,7 +42,6 @@ router.get('/add', async (req, res) => {
     }
 });
 
-// Update candidate page
 router.get('/update', async (req, res) => {
     try {
         if (!(await checkAdminRole(req.user.id))) {
@@ -59,7 +56,6 @@ router.get('/update', async (req, res) => {
     }
 });
 
-// Delete candidate page
 router.get('/delete', async (req, res) => {
     try {
         if (!(await checkAdminRole(req.user.id))) {
@@ -74,7 +70,6 @@ router.get('/delete', async (req, res) => {
     }
 });
 
-// Add candidate route
 router.post('/add', async (req, res) => {
     try {
 
@@ -105,7 +100,6 @@ router.post('/add', async (req, res) => {
     }
 });
 
-// Update candidate route
 router.post('/update', async (req, res) => {
     try {
         if (!(await checkAdminRole(req.user.id))) {
@@ -128,7 +122,6 @@ router.post('/update', async (req, res) => {
     }
 });
 
-// Delete candidate route
 router.post('/delete', async (req, res) => {
     try {
         if (!(await checkAdminRole(req.user.id))) {
