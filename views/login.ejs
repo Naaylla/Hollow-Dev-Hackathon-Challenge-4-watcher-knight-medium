@@ -1,0 +1,105 @@
+<!-- THIS IS A Bootstrap TEMPLATE THAT I MODIFIED, I DO NOT OWN THIS TEMPLATE -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        .auth-page {
+            width: 400px;
+            margin: auto;
+            margin-top: 5rem;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 10px;
+        }
+
+        .login-page h1 {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-link {
+            color: #007bff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .form-outline {
+            margin-bottom: 1.5rem;
+        }
+
+        .custom-container {
+            margin-top: 10rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container custom-container">
+        <!-- Pills content -->
+        <div class="tab-content">
+            <div class="login-page tab-pane fade show active auth-page" id="pills-login" role="tabpanel"
+                aria-labelledby="tab-login">
+                <form action="/" method="POST">
+                    <div class="text-center mb-3">
+                        <h1>LOG IN</h1>
+                    </div>
+                    <% if (messages.error) { %>
+                        <div class="alert alert-danger">
+                            <strong>
+                                <%= messages.error %>
+                            </strong>
+                        </div>
+                        <% } %>
+
+                            <% if (messages.successMessage) { %>
+                                <div class="alert alert-success" role="alert">
+                                    <%= messages.successMessage %>
+                                </div>
+                                <% } %>
+
+                                    <!-- Email input -->
+                                    <div class="form-outline">
+                                        <label class="form-label" for="loginName">Email</label>
+                                        <input type="email" name="email" id="loginName" class="form-control" />
+                                    </div>
+                                    <!-- Password input -->
+                                    <div class="form-outline">
+                                        <label class="form-label" for="loginPassword">Password</label>
+                                        <input type="password" name="password" id="loginPassword"
+                                            class="form-control" />
+                                    </div>
+
+                                    <!-- Submit button -->
+                                    <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+                                    <div class="text-center">
+                                        <p>Not a member? <a href="/register">Register</a></p>
+                                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Pills content -->
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
