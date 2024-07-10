@@ -1,0 +1,126 @@
+<!-- THIS IS A Bootstrap TEMPLATE THAT I MODIFIED, I DO NOT OWN THIS TEMPLATE -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .vote-page {
+            width: 100%;
+            min-height: 100%;
+            position: relative;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease;
+            /* Smooth transition for button hover */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            /* Darker shade on hover */
+        }
+
+        .card {
+            margin-bottom: 1.5rem;
+            border: 1px solid #ddd;
+            /* Light border around cards */
+            border-radius: 8px;
+            /* Rounded corners for cards */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+            transition: transform 0.3s ease;
+            /* Smooth hover effect */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            /* Lift card on hover */
+        }
+
+        .card-title {
+            font-weight: bold;
+            color: #333;
+            /* Darker text color for readability */
+        }
+
+        .card-text {
+            color: #666;
+            /* Slightly lighter text color */
+        }
+
+        .alert-info {
+            margin-bottom: 1.5rem;
+            /* Adjusted margin for alert */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="vote-page">
+        <h1 class="mb-4">Vote Page</h1>
+
+        <!-- Candidate List -->
+        <div id="candidate-list">
+            <% if (candidates.length===0) { %>
+                <div class="alert alert-info" role="alert">
+                    No candidates yet.
+                </div>
+                <% } else { %>
+                    <% candidates.forEach(candidate=> { %>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= candidate.name %>
+                                </h5>
+                                <p class="card-text">Party: <%= candidate.party %>
+                                </p>
+                                <p class="card-text">Votes: <%= candidate.voteCount %>
+                                </p>
+                                <form action="./votes" method="POST">
+                                    <% if (user && user.role !=='admin' && user.votedCandidates &&
+                                        user.votedCandidates.includes(candidate._id)) { %>
+                                        <button class="btn btn-primary" type="button" disabled>Voted</button>
+                                        <% } else if (user && user.role !=='admin' ) { %>
+                                            <input type="hidden" name="candidateID" value="<%= candidate._id %>">
+                                            <button class="btn btn-primary" type="submit">Vote</button>
+                                            <% } %>
+                                </form>
+                            </div>
+                        </div>
+
+                        <% }); %>
+                            <% } %>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

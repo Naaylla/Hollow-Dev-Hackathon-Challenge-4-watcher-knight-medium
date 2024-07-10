@@ -12,9 +12,16 @@
     <!-- Font Awesome CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
+        body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
         .admin-page {
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
             position: relative;
             padding: 2rem;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -32,6 +39,9 @@
             border-color: #007bff;
         }
 
+        .form-group {
+            margin-bottom: 1rem;
+        }
 
         .top-left {
             position: absolute;
@@ -44,19 +54,41 @@
             top: 20px;
             right: 20px;
         }
+
+        .admin-options {
+            margin-top: 5rem;
+        }
     </style>
 </head>
 
 <body>
-    <div class="auth-page">
+    <div class="admin-page">
         <div class="top-left">
             <h1>Welcome, admin <%= user.name %>!</h1>
+            <% if (message) { %>
+                <div class="alert alert-info" role="alert">
+                    <%= message %>
+                </div>
+                <% } %>
         </div>
-        <form action="/logout?_method=DELETE" method="POST">
+        <form action="/logout?_method=DELETE" method="POST" name="logout">
             <div class="top-right">
                 <button class="btn btn-primary text-white" type="submit">Log out</button>
             </div>
         </form>
+
+        <!-- Admin Options -->
+        <div class="admin-options">
+            <h2>Admin Options</h2>
+
+            <!-- Navigation Links -->
+            <ul class="list-unstyled">
+                <li><a href="/admin/add">Add a New Candidate</a></li>
+                <li><a href="/admin/update">Update a Candidate</a></li>
+                <li><a href="/admin/delete">Delete a Candidate</a></li>
+                <li><a href="/admin/votes">Check Votes</a></li>
+            </ul>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>

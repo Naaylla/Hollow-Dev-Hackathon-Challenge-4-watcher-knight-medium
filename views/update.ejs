@@ -1,0 +1,44 @@
+<!-- THIS IS A Bootstrap TEMPLATE THAT I MODIFIED, I DO NOT OWN THIS TEMPLATE -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Candidate</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Update a Candidate</h1>
+        <% if (message) { %>
+            <div class="alert alert-info" role="alert">
+                <%= message %>
+            </div>
+            <% } %>
+                <form action="/admin/update" method="POST">
+                    <div class="form-group">
+                        <label for="candidate">Select Candidate to Update</label>
+                        <select class="custom-select" id="candidate" name="candidateID">
+                            <option selected disabled>Select a candidate</option>
+                            <% candidates.forEach(candidate=> { %>
+                                <option value="<%= candidate._id %>">
+                                    <%= candidate.name %>
+                                </option>
+                                <% }); %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newParty">New Party</label>
+                        <input type="text" class="form-control" id="newParty" name="party"
+                            placeholder="Enter new party">
+                    </div>
+                    <button class="btn btn-warning" type="submit">Update Candidate</button>
+                </form>
+    </div>
+</body>
+
+</html>
